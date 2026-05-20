@@ -24,7 +24,7 @@ This is the same architecture used in real-world systems before adding databases
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](diagrams/ALB_Diagram.png)
+![Architecture Diagram](diagrams/architecture.png)
 
 ```
                    Internet
