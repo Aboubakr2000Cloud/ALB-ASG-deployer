@@ -49,11 +49,11 @@ cat > /var/www/html/index.html << EOF
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Week 13 Load Balancing & Auto Scaling</title>
+    <title>Load Balancing & Auto Scaling</title>
   </head>
   <body>
     <h1>Abou</h1>
-    <p>week 13: Load Balancing and Auto Scaling</p>
+    <p>Load Balancing and Auto Scaling</p>
     <p>Instance ID: $INSTANCE_ID</p>
     <p>Private IP: $PRIVATE_IP</p>
     <p>Deployed at: $(date)</p>

@@ -16,9 +16,8 @@ VPC_ID=$(aws ec2 create-vpc \
   --query 'Vpc.VpcId' \
   --output text \
   --tag-specifications "ResourceType=vpc,Tags=[
-    {Key=Name,Value=week13-vpc},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-vpc},
+    {Key=Project,Value=$PROJECT_TAG}
   ]")
   
 echo "VPC created: $VPC_ID"  
@@ -32,9 +31,8 @@ IGW_ID=$(aws ec2 create-internet-gateway \
   --query 'InternetGateway.InternetGatewayId' \
   --output text \
   --tag-specifications "ResourceType=internet-gateway,Tags=[
-    {Key=Name,Value=week13-igw},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-igw},
+    {Key=Project,Value=$PROJECT_TAG}
   ]")
   
 # Attach to VPC
@@ -48,9 +46,8 @@ PUBLIC_SUBNET_1_ID=$(aws ec2 create-subnet \
   --query 'Subnet.SubnetId' \
   --output text \
   --tag-specifications "ResourceType=subnet,Tags=[
-    {Key=Name,Value=week13-public-subnet-1},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-public-subnet-1},
+    {Key=Project,Value=$PROJECT_TAG
   ]")
   
 # Create public subnet 2
@@ -61,9 +58,8 @@ PUBLIC_SUBNET_2_ID=$(aws ec2 create-subnet \
   --query 'Subnet.SubnetId' \
   --output text \
   --tag-specifications "ResourceType=subnet,Tags=[
-    {Key=Name,Value=week13-public-subnet-2},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-public-subnet-2},
+    {Key=Project,Value=$PROJECT_TAG}
   ]")
   
 echo "Public subnets: $PUBLIC_SUBNET_1_ID, $PUBLIC_SUBNET_2_ID"
@@ -76,9 +72,8 @@ PRIVATE_SUBNET_1_ID=$(aws ec2 create-subnet \
   --query 'Subnet.SubnetId' \
   --output text \
   --tag-specifications "ResourceType=subnet,Tags=[
-    {Key=Name,Value=week13-private-subnet-1},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-private-subnet-1},
+    {Key=Project,Value=$PROJECT_TAG}
   ]")
   
 # Create private subnet 2
@@ -89,9 +84,8 @@ PRIVATE_SUBNET_2_ID=$(aws ec2 create-subnet \
   --query 'Subnet.SubnetId' \
   --output text \
   --tag-specifications "ResourceType=subnet,Tags=[
-    {Key=Name,Value=week13-private-subnet-2},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-private-subnet-2},
+    {Key=Project,Value=$PROJECT_TAG}
   ]")
 
 echo "Private subnets: $PRIVATE_SUBNET_1_ID, $PRIVATE_SUBNET_2_ID"
@@ -112,9 +106,8 @@ PUBLIC_ROUTE_TABLE_ID=$(aws ec2 create-route-table \
   --query 'RouteTable.RouteTableId' \
   --output text \
   --tag-specifications "ResourceType=route-table,Tags=[
-    {Key=Name,Value=week13-public-rt},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-public-rt},
+    {Key=Project,Value=$PROJECT_TAG}
   ]") >/dev/null
 
 echo "Public route table: $PUBLIC_ROUTE_TABLE_ID"
@@ -147,9 +140,8 @@ ALLOCATION_ID=$(aws ec2 allocate-address \
 # Tag elastic IP
 aws ec2 create-tags \
   --resources "$ALLOCATION_ID" \
-  --tags Key=Name,Value=week13-eip \
-         Key=Project,Value=$PROJECT_TAG \
-         Key=Week,Value=$WEEK_TAG
+  --tags Key=Name,Value=my-eip \
+         Key=Project,Value=$PROJECT_TAG
          
 # Create NAT Gateway in public subnet 1
 NAT_ID=$(aws ec2 create-nat-gateway \
@@ -158,9 +150,8 @@ NAT_ID=$(aws ec2 create-nat-gateway \
   --query 'NatGateway.NatGatewayId' \
   --output text \
   --tag-specifications "ResourceType=natgateway,Tags=[
-    {Key=Name,Value=week13-nat},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-nat},
+    {Key=Project,Value=$PROJECT_TAG}
   ]")
   
 # Wait for the NAT Gateway to be available
@@ -184,9 +175,8 @@ PRIVATE_ROUTE_TABLE_ID=$(aws ec2 create-route-table \
   --query 'RouteTable.RouteTableId' \
   --output text \
   --tag-specifications "ResourceType=route-table,Tags=[
-    {Key=Name,Value=week13-private-rt},
-    {Key=Project,Value=$PROJECT_TAG},
-    {Key=Week,Value=$WEEK_TAG}
+    {Key=Name,Value=my-private-rt},
+    {Key=Project,Value=$PROJECT_TAG}
   ]") >/dev/null
 
 echo "Private route table: $PRIVATE_ROUTE_TABLE_ID"
@@ -254,13 +244,13 @@ ALB_SG_ID=$(aws ec2 describe-security-groups \
      ALB_SG_ID=$(aws ec2 create-security-group \
      --vpc-id "$VPC_ID" \
      --group-name "$ALB_SG_NAME" \
-     --description "Week 13 Application load balancer SG" \
+     --description "Application load balancer SG" \
      --query 'GroupId' \
      --output text)
 
      aws ec2 create-tags \
        --resources "$ALB_SG_ID" \
-       --tags Key=Name,Value=week13-ALB-sg Key=Project,Value="$PROJECT_TAG" Key=Week,Value="$WEEK_TAG" >/dev/null
+       --tags Key=Name,Value=my-ALB-sg Key=Project,Value="$PROJECT_TAG" >/dev/null
 
      aws ec2 authorize-security-group-ingress \
        --group-id "$ALB_SG_ID" \
@@ -284,13 +274,13 @@ APP_SERVER_SG_ID=$(aws ec2 describe-security-groups \
     APP_SERVER_SG_ID=$(aws ec2 create-security-group \
       --vpc-id "$VPC_ID" \
       --group-name "$APP_SG_NAME" \
-      --description "Week 13 App SG" \
+      --description "My App SG" \
       --query 'GroupId' \
       --output text)
 
     aws ec2 create-tags \
       --resources "$APP_SERVER_SG_ID" \
-      --tags Key=Name,Value=week13-app-server-sg Key=Project,Value="$PROJECT_TAG" Key=Week,Value="$WEEK_TAG" >/dev/null
+      --tags Key=Name,Value=my-app-server-sg Key=Project,Value="$PROJECT_TAG" >/dev/null
 
     aws ec2 authorize-security-group-ingress \
       --group-id "$APP_SERVER_SG_ID" \
@@ -337,7 +327,7 @@ LT_ID=$(aws ec2 create-launch-template \
     \"TagSpecifications\": [{
       \"ResourceType\": \"instance\",
       \"Tags\": [
-        {\"Key\": \"Name\", \"Value\": \"week13-asg-instance\"},
+        {\"Key\": \"Name\", \"Value\": \"my-asg-instance\"},
         {\"Key\": \"Project\", \"Value\": \"$PROJECT_TAG\"}
       ]
     }]
@@ -515,7 +505,7 @@ aws autoscaling create-auto-scaling-group \
   --health-check-type ELB \
   --health-check-grace-period 120 \
   --query "AutoScalingGroups[0].AutoScalingGroupARN" \
-  --tags "Key=Name,Value=week13-asg,PropagateAtLaunch=false" \
+  --tags "Key=Name,Value=my-asg,PropagateAtLaunch=false" \
          "Key=Project,Value=$PROJECT_TAG,PropagateAtLaunch=true"
 
 ASG_ARN=$(aws autoscaling describe-auto-scaling-groups \

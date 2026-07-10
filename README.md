@@ -1,6 +1,4 @@
-# ☁️ Week 13 — Load Balancing & Auto Scaling: `alb-asg-deployer`
-
-> **Cloud Engineering Roadmap** · Week 13 of 24
+# ☁️ Load Balancing & Auto Scaling: `alb-asg-deployer`
 
 A fully scripted AWS high-availability deployment that builds a production-ready **Application Load Balancer + Auto Scaling Group architecture** — multi-AZ public/private subnets, ALB with health checks, launch templates, dynamic scaling policies, and complete teardown — all via Bash and the AWS CLI, zero console clicking.
 
@@ -8,8 +6,8 @@ A fully scripted AWS high-availability deployment that builds a production-ready
 
 ## 📋 Overview
 
-In Week 12, I built the **network foundation** (VPC, subnets, NAT, bastion).
-This week, I move up the stack and build **high availability and scalability**.
+In VPC-Infra-Deployer project I built the **network foundation** (VPC, subnets, NAT, bastion).
+This project, I move up the stack and build **high availability and scalability**.
 
 `alb-asg-deployer` automates a real production pattern:
 
@@ -222,7 +220,7 @@ ASG → Launch Template → ALB → Target Group
 ### 1. Clone repo
 
 ```bash
-git clone https://github.com/<your-username>/alb-asg-deployer.git
+git clone https://github.com/Aboubakr2000Cloud/ALB-ASG-deployer.git
 cd alb-asg-deployer
 ```
 
@@ -253,18 +251,17 @@ AZ_2="eu-west-1b"
 INSTANCE_TYPE="t3.micro"
 AMI_ID="ami-xxxxxxxxxxxx"
 
-KEY_NAME="week13-key"
+KEY_NAME="my-key"
 
-ALB_SG_NAME="week13-alb-sg"
-APP_SG_NAME="week13-app-sg"
+ALB_SG_NAME="my-alb-sg"
+APP_SG_NAME="my-app-sg"
 
-ASG_NAME="week13-asg"
-LT_NAME="week13-launch-template"
-TG_NAME="week13-tg"
-ALB_NAME="week13-alb"
+ASG_NAME="my-asg"
+LT_NAME="my-launch-template"
+TG_NAME="my-tg"
+ALB_NAME="my-alb"
 
 PROJECT_TAG="cloudpath"
-WEEK_TAG="13"
 ```
 
 ---
@@ -283,9 +280,9 @@ chmod +x deploy.sh teardown.sh
 ```
 ✅ Infrastructure deployed!
 
-🌐 ALB DNS:  week13-alb-xxx.eu-west-1.elb.amazonaws.com
-🔗 URL:      http://week13-alb-xxx.eu-west-1.elb.amazonaws.com
-⚡ Health:   http://week13-alb-xxx.eu-west-1.elb.amazonaws.com/health
+🌐 ALB DNS:  my-alb-xxx.eu-west-1.elb.amazonaws.com
+🔗 URL:      http://my-alb-xxx.eu-west-1.elb.amazonaws.com
+⚡ Health:   http://my-alb-xxx.eu-west-1.elb.amazonaws.com/health
 
 ⏳ Note: Instances are starting. Wait ~2 minutes before testing.
 ```
@@ -392,14 +389,3 @@ killall yes
 * Why private instances + ALB is the standard production model
 * How to design **highly available systems across AZs**
 * Building fully idempotent infrastructure scripts
-
----
-
-## 🔗 Next Step
-
-Week 14+ → Databases on AWS.
-
----
-
-*Part of the Cloud Engineering Roadmap — from Linux to production-grade AWS systems.*
-
